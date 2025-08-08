@@ -22,11 +22,6 @@
                    class="btn small secondary"
                    onclick="return confirm('¿Estás seguro de cerrar esta vacante?')">Cerrar</a>
                 {% endif %}
-                
-                <form action="{{ url_for('eliminar_vacante', vacante_id=vacante._id) }}" method="POST" style="display: inline;">
-                    <button type="submit" class="btn small danger" 
-                            onclick="return confirm('¿Estás seguro de eliminar esta vacante?')">Eliminar</button>
-                </form>
             </div>
         </div>
         {% else %}
@@ -36,4 +31,5 @@
 </div>
 
 {% endblock %}
+
 
