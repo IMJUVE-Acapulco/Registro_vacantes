@@ -10,18 +10,12 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = os.environ.get('SECRET_KEY', 'dev-key-por-defecto')
 
-    # Configuración de MongoDB (usa variables de entorno en producción)
-    mongo_uri = os.environ.get('MONGO_URI', "mongodb://localhost:27017/")
+    # Configuración de MongoDB
+    mongo_uri = "mongodb+srv://purnyan22:IMJUVE13@cluster0.sbeawa3.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
     client = MongoClient(mongo_uri)
     db = client['sistema_vacantes']
     empresas_collection = db['empresas']
     vacantes_collection = db['vacantes']
-
-    # Configuración para subir archivos
-    UPLOAD_FOLDER = 'static/images/flayers'
-    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
     def allowed_file(filename):
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -305,3 +299,4 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
+
