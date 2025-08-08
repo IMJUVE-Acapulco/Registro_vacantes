@@ -226,39 +226,44 @@ def create_app():
         return render_template('admin_panel.html', vacantes=vacantes)
 
     @app.route('/admin/eliminar/<vacante_id>', methods=['POST'])
-    def eliminar_vacante(vacante_id):
-        if 'empresa_id' not in session or not session.get('es_admin'):
-            flash('Acceso no autorizado', 'error')
-            return redirect(url_for('index'))
+def eliminar_vacante(vacante_id):
+    if 'empresa_id' not in session or not session.get('es_admin'):
+        flash('Acceso no autorizado', 'error')
+        return redirect(url_for('index'))
+    
+    try:
+        if not ObjectId.is_valid(vacante_id):
+            flash('ID de vacante inválido', 'error')
+            return redirect(url_for('admin_panel'))
         
-        try:
-            if not ObjectId.is_valid(vacante_id):
-                flash('ID de vacante inválido', 'error')
-                return redirect(url_for('admin_panel'))
-            
-            vacante = vacantes_collection.find_one({'_id': ObjectId(vacante_id)})
-            if not vacante:
-                flash('Vacante no encontrada', 'error')
-                return redirect(url_for('admin_panel'))
-            
-            if vacante.get('flayer_path'):
-                try:
-                    os.remove(os.path.join('static', vacante['flayer_path']))
-                except Exception as e:
-                    print(f"Error al eliminar flyer: {str(e)}")
-            
-            result = vacantes_collection.delete_one({'_id': ObjectId(vacante_id)})
-            
-            if result.deleted_count > 0:
-                flash('Vacante eliminada exitosamente', 'success')
-            else:
-                flash('No se pudo eliminar la vacante', 'error')
+        vacante = vacantes_collection.find_one({'_id': ObjectId(vacante_id)})
+        if not vacante:
+            flash('Vacante no encontrada', 'error')
+            return redirect(url_for('admin_panel'))
         
-        except Exception as e:
-            print(f"Error al eliminar: {str(e)}")
-            flash('Error al eliminar la vacante', 'error')
+        # Eliminar archivo flyer si existe
+        if vacante.get('flayer_path'):
+            try:
+                file_path = os.path.join('static', vacante['flayer_path'])
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+            except Exception as e:
+                print(f"Error eliminando flyer: {e}")
+                # No detener el proceso si falla eliminar el archivo
         
-        return redirect(url_for('admin_panel'))
+        # Eliminar de MongoDB
+        result = vacantes_collection.delete_one({'_id': ObjectId(vacante_id)})
+        
+        if result.deleted_count > 0:
+            flash('Vacante eliminada exitosamente', 'success')
+        else:
+            flash('No se encontró la vacante para eliminar', 'error')
+    
+    except Exception as e:
+        print(f"Error eliminando vacante: {e}")
+        flash('Error técnico al eliminar la vacante', 'error')
+    
+    return redirect(url_for('admin_panel'))
 
     @app.route('/registro', methods=['GET', 'POST'])
     def registro():
@@ -299,4 +304,5 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
+
 
