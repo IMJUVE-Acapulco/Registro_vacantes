@@ -22,9 +22,13 @@
             </div>
             
             <div class="vacante-admin-actions">
-                <a href="{{ url_for('eliminar_vacante', vacante_id=vacante.id) }}" 
-                   class="btn small danger" 
-                   onclick="return confirm('¿Estás seguro de eliminar esta vacante?')">Eliminar</a>
+                <form action="{{ url_for('eliminar_vacante', vacante_id=vacante._id) }}" method="POST" style="display: inline;">
+                    <button type="submit" 
+                            class="btn small danger" 
+                            onclick="return confirm('¿Estás seguro de eliminar esta vacante?')">
+                        Eliminar
+                    </button>
+                </form>
             </div>
         </div>
         {% else %}
@@ -32,4 +36,5 @@
         {% endfor %}
     </div>
 </div>
+
 {% endblock %}
