@@ -119,10 +119,76 @@ def create_app():
         
         return render_template('administrar.html', vacantes=vacantes)
 
-    @app.route('/editar/<vacante_id>', methods=['GET', 'POST'])
-    def editar(vacante_id):
-        if 'empresa_id' not in session:
-            return redirect(url_for('index'))
+@app.route('/editar/<vacante_id>', methods=['GET', 'POST'])
+def editar(vacante_id):
+    if 'empresa_id' not in session:
+        return redirect(url_for('index'))
+    
+    try:
+        # Validar ObjectId primero
+        if not ObjectId.is_valid(vacante_id):
+            flash('ID de vacante inválido', 'error')
+            return redirect(url_for('administrar'))
+
+        vacante = vacantes_collection.find_one({
+            '_id': ObjectId(vacante_id),
+            'empresa_id': ObjectId(session['empresa_id'])
+        })
+        
+        if not vacante:
+            flash('Vacante no encontrada o no tienes permisos', 'error')
+            return redirect(url_for('administrar'))
+        
+        if request.method == 'POST':
+            titulo = request.form['titulo']
+            descripcion = request.form['descripcion']
+            requisitos = request.form['requisitos']
+            activa = 'activa' in request.form
+            flayer_path = vacante.get('flayer_path')
+            
+            if 'flayer' in request.files:
+                file = request.files['flayer']
+                if file and allowed_file(file.filename):
+                    # Eliminar el flyer anterior si existe
+                    if vacante.get('flayer_path'):
+                        try:
+                            os.remove(os.path.join('static', vacante['flayer_path']))
+                        except:
+                            pass
+                    # Guardar el nuevo
+                    filename = secure_filename(file.filename)
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    flayer_path = os.path.join('images/flayers', filename)
+            
+            result = vacantes_collection.update_one(
+                {'_id': ObjectId(vacante_id)},
+                {'$set': {
+                    'titulo': titulo,
+                    'descripcion': descripcion,
+                    'requisitos': requisitos,
+                    'flayer_path': flayer_path,
+                    'activa': activa
+                }}
+            )
+            
+            if result.modified_count > 0:
+                flash('Vacante actualizada exitosamente', 'success')
+            else:
+                flash('No se realizaron cambios en la vacante', 'info')
+            
+            return redirect(url_for('administrar'))
+        
+        # Convertir ObjectId y fecha para el template
+        vacante['_id'] = str(vacante['_id'])
+        if isinstance(vacante.get('fecha_creacion'), datetime):
+            vacante['fecha_creacion'] = vacante['fecha_creacion'].strftime('%Y-%m-%d %H:%M:%S')
+            
+        return render_template('editar.html', vacante=vacante)
+    
+    except Exception as e:
+        print(f"Error en editar: {str(e)}")
+        flash('Error al procesar la solicitud', 'error')
+        return redirect(url_for('administrar'))
         
         try:
             vacante = vacantes_collection.find_one({
@@ -219,23 +285,41 @@ def create_app():
         
         return render_template('admin_panel.html', vacantes=vacantes)
 
-    @app.route('/admin/eliminar/<vacante_id>')
-    def eliminar_vacante(vacante_id):
-        if 'empresa_id' not in session or not session.get('es_admin'):
-            return redirect(url_for('index'))
+@app.route('/admin/eliminar/<vacante_id>', methods=['POST'])  # Cambiado a POST
+def eliminar_vacante(vacante_id):
+    if 'empresa_id' not in session or not session.get('es_admin'):
+        flash('Acceso no autorizado', 'error')
+        return redirect(url_for('index'))
+    
+    try:
+        if not ObjectId.is_valid(vacante_id):
+            flash('ID de vacante inválido', 'error')
+            return redirect(url_for('admin_panel'))
         
-        try:
-            result = vacantes_collection.delete_one({'_id': ObjectId(vacante_id)})
-            
-            if result.deleted_count > 0:
-                flash('Vacante eliminada exitosamente', 'success')
-            else:
-                flash('No se encontró la vacante para eliminar', 'error')
+        vacante = vacantes_collection.find_one({'_id': ObjectId(vacante_id)})
+        if not vacante:
+            flash('Vacante no encontrada', 'error')
+            return redirect(url_for('admin_panel'))
         
-        except Exception as e:
-            flash('Error al eliminar la vacante', 'error')
+        # Eliminar el flyer asociado si existe
+        if vacante.get('flayer_path'):
+            try:
+                os.remove(os.path.join('static', vacante['flayer_path']))
+            except Exception as e:
+                print(f"Error al eliminar flyer: {str(e)}")
         
-        return redirect(url_for('admin_panel'))
+        result = vacantes_collection.delete_one({'_id': ObjectId(vacante_id)})
+        
+        if result.deleted_count > 0:
+            flash('Vacante eliminada exitosamente', 'success')
+        else:
+            flash('No se pudo eliminar la vacante', 'error')
+    
+    except Exception as e:
+        print(f"Error al eliminar: {str(e)}")
+        flash('Error al eliminar la vacante', 'error')
+    
+    return redirect(url_for('admin_panel'))
 
     @app.route('/registro', methods=['GET', 'POST'])
     def registro():
@@ -275,4 +359,5 @@ def create_app():
 
 if __name__ == '__main__':
     app = create_app()
+
     app.run(debug=True)
