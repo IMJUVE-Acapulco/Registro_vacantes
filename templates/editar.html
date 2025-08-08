@@ -5,7 +5,7 @@
 {% block content %}
 <div class="form-container">
     <h2>Editar Vacante: {{ vacante.titulo }}</h2>
-    <form action="{{ url_for('editar', vacante_id=vacante.id) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ url_for('editar', vacante_id=vacante._id) }}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="titulo">Título de la Vacante:</label>
             <input type="text" id="titulo" name="titulo" value="{{ vacante.titulo }}" required>
