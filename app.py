@@ -200,6 +200,26 @@ def create_app():
         
         return redirect(url_for('administrar'))
 
+
+    @app.route('/abrir/<vacante_id>')
+    def abrir_vacante(vacante_id):
+        if 'empresa_id' not in session:
+            return redirect(url_for('index'))
+        
+        try:
+            result = vacantes_collection.update_one(
+                {'_id': ObjectId(vacante_id), 'empresa_id': ObjectId(session['empresa_id'])},
+                {'$set': {'activa': True}}
+            )
+            if result.modified_count > 0:
+                flash('Vacante reabierta', 'success')
+            else:
+                flash('No se pudo reabrir la vacante', 'error')
+        except Exception as e:
+            flash('Error al reabrir la vacante', 'error')
+        
+        return redirect(url_for('administrar'))
+
     @app.route('/admin')
     def admin_panel():
         if 'empresa_id' not in session or not session.get('es_admin'):
@@ -304,6 +324,7 @@ def create_app():
 if __name__ == '__main__':
     app = create_app()
     app.run(debug=True)
+
 
 
 
