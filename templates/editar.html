@@ -21,17 +21,6 @@
             <textarea id="requisitos" name="requisitos" rows="6" required>{{ vacante.requisitos }}</textarea>
         </div>
         
-        <div class="form-group">
-            <label>Flyer Actual:</label>
-            {% if vacante.flayer_path %}
-            <img src="{{ url_for('static', filename=vacante.flayer_path) }}" alt="Flyer vacante" class="flayer-preview">
-            {% else %}
-            <p>No hay flyer cargado</p>
-            {% endif %}
-            <label for="flayer">Nuevo Flyer (Opcional):</label>
-            <input type="file" id="flayer" name="flayer" accept="image/*">
-        </div>
-        
         <div class="form-group checkbox">
             <input type="checkbox" id="activa" name="activa" {% if vacante.activa %}checked{% endif %}>
             <label for="activa">Vacante Activa</label>
@@ -44,3 +33,4 @@
     </form>
 </div>
 {% endblock %}
+
