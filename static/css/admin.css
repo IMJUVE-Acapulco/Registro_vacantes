@@ -1,0 +1,83 @@
+/* Estilos específicos para el panel de administrador */
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.admin-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.admin-container p {
+    margin-bottom: 2rem;
+    color: var(--gray-color);
+}
+
+.vacantes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.vacante-admin-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 4px solid var(--primary-color);
+}
+
+.vacante-admin-card.inactiva {
+    border-left-color: var(--inactive-color);
+    opacity: 0.8;
+}
+
+.vacante-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.3rem;
+}
+
+.vacante-info .empresa {
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+}
+
+.vacante-info .fecha {
+    font-size: 0.9rem;
+    color: var(--gray-color);
+    margin-bottom: 0.3rem;
+}
+
+.vacante-info .estado {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.vacante-admin-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.no-vacantes {
+    text-align: center;
+    padding: 2rem;
+    color: var(--gray-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .vacante-admin-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .vacante-admin-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}

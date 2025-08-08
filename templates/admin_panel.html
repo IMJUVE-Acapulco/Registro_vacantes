@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Panel de Administrador{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <h2>Panel de Administrador</h2>
+    <p>Administración de todas las vacantes del sistema</p>
+    
+    <div class="vacantes-list">
+        {% for vacante in vacantes %}
+        <div class="vacante-admin-card {% if not vacante.activa %}inactiva{% endif %}">
+            <div class="vacante-info">
+                <h3>{{ vacante.titulo }}</h3>
+                <p class="empresa">Empresa: {{ vacante.empresa_nombre }}</p>
+                <p class="fecha">Creada: {{ vacante.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</p>
+                <p class="estado">Estado: {{ 'Activa' if vacante.activa else 'Cerrada' }}</p>
+            </div>
+            
+            <div class="vacante-admin-actions">
+                <a href="{{ url_for('eliminar_vacante', vacante_id=vacante.id) }}" 
+                   class="btn small danger" 
+                   onclick="return confirm('¿Estás seguro de eliminar esta vacante?')">Eliminar</a>
+            </div>
+        </div>
+        {% else %}
+        <p class="no-vacantes">No hay vacantes registradas en el sistema.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Vacante{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Registrar Nueva Vacante</h2>
+    <form action="{{ url_for('registrar') }}" method="post">
+        <div class="form-group">
+            <label for="titulo">Título de la Vacante:</label>
+            <input type="text" id="titulo" name="titulo" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="requisitos">Requisitos:</label>
+            <textarea id="requisitos" name="requisitos" rows="6" required></textarea>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn">Registrar Vacante</button>
+            <a href="{{ url_for('administrar') }}" class="btn secondary">Ver Vacantes</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

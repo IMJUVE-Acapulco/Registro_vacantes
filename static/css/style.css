@@ -1,0 +1,343 @@
+/* Estilos generales - Modificado a vino/hueso */
+:root {
+    --primary-color: #722F37;       /* Color vino principal */
+    --secondary-color: #5A2328;     /* Color vino más oscuro */
+    --success-color: #4A6B3D;       /* Verde más oscuro para combinar */
+    --danger-color: #A83333;        /* Rojo vinoso */
+    --warning-color: #B38B6D;       /* Color tierra/marrón claro */
+    --light-color: #F5F5DC;         /* Color hueso */
+    --dark-color: #3D1E1E;          /* Vino muy oscuro */
+    --gray-color: #8B7D7D;          /* Gris con tono vinoso */
+    --inactive-color: #C4B6B6;      /* Inactivo en tonos tierra */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: var(--light-color); /* Fondo hueso */
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--light-color); /* Texto en hueso */
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 1.5rem;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logout-btn {
+    color: var(--light-color);
+    text-decoration: none;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: var(--dark-color);
+}
+
+main {
+    padding: 2rem;
+    min-height: calc(100vh - 120px);
+}
+
+footer {
+    background-color: var(--dark-color);
+    color: var(--light-color);
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Estilos para mensajes flash */
+.flash-messages {
+    margin-bottom: 1.5rem;
+}
+
+.flash {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.flash.success {
+    background-color: #E8F4E3;
+    color: #2D4A21;
+    border: 1px solid #D1E5C8;
+}
+
+.flash.error {
+    background-color: #FAE6E6;
+    color: #6D2A2A;
+    border: 1px solid #F0C9C9;
+}
+
+/* Estilos para formularios */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: var(--light-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #D9C7C7; /* Borde sutil */
+}
+
+.form-container h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="file"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #D9C7C7;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #FFFDF5; /* Blanco ligeramente amarillento */
+}
+
+.form-group textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.form-group.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group.checkbox input {
+    width: auto;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Estilos para botones */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn.secondary {
+    background-color: var(--warning-color);
+    color: var(--dark-color);
+}
+
+.btn.secondary:hover {
+    background-color: #9C7A5D;
+    color: var(--light-color);
+}
+
+.btn.small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}
+
+.btn.danger {
+    background-color: var(--danger-color);
+}
+
+.btn.danger:hover {
+    background-color: #8C2A2A;
+}
+
+/* Estilos para el login */
+.login-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    background: var(--light-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid #D9C7C7;
+}
+
+.login-container h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    color: var(--primary-color);
+}
+
+/* Estilos para el menú principal */
+.menu-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    text-align: center;
+}
+
+.menu-container h2 {
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+}
+
+.menu-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.menu-btn {
+    display: block;
+    padding: 2rem;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid #D9C7C7;
+}
+
+.menu-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    background-color: #F0E6CC;
+}
+
+.menu-btn span {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Estilos para las tarjetas de vacantes */
+.vacantes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.vacantes-container h2 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.vacantes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.vacante-card {
+    background: var(--light-color);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+    border-left: 4px solid var(--primary-color);
+    border: 1px solid #D9C7C7;
+}
+
+.vacante-card.inactiva {
+    border-left-color: var(--inactive-color);
+    opacity: 0.8;
+    background-color: #F0E8E8;
+}
+
+.vacante-card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.vacante-card .fecha {
+    font-size: 0.9rem;
+    color: var(--gray-color);
+    margin-bottom: 0.5rem;
+}
+
+.vacante-card .estado {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+}
+
+.vacante-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.no-vacantes {
+    text-align: center;
+    padding: 2rem;
+    color: var(--gray-color);
+    grid-column: 1 / -1;
+}
+
+/* Estilos para el flyer */
+.flayer-preview {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 1rem;
+    border: 1px solid #D9C7C7;
+    border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .vacantes-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}

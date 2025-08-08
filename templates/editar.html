@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Vacante{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Editar Vacante: {{ vacante.titulo }}</h2>
+    <form action="{{ url_for('editar', vacante_id=vacante.id) }}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="titulo">Título de la Vacante:</label>
+            <input type="text" id="titulo" name="titulo" value="{{ vacante.titulo }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required>{{ vacante.descripcion }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label for="requisitos">Requisitos:</label>
+            <textarea id="requisitos" name="requisitos" rows="6" required>{{ vacante.requisitos }}</textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>Flyer Actual:</label>
+            {% if vacante.flayer_path %}
+            <img src="{{ url_for('static', filename=vacante.flayer_path) }}" alt="Flyer vacante" class="flayer-preview">
+            {% else %}
+            <p>No hay flyer cargado</p>
+            {% endif %}
+            <label for="flayer">Nuevo Flyer (Opcional):</label>
+            <input type="file" id="flayer" name="flayer" accept="image/*">
+        </div>
+        
+        <div class="form-group checkbox">
+            <input type="checkbox" id="activa" name="activa" {% if vacante.activa %}checked{% endif %}>
+            <label for="activa">Vacante Activa</label>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn">Guardar Cambios</button>
+            <a href="{{ url_for('administrar') }}" class="btn secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

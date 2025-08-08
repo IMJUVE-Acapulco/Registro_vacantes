@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Menú Principal{% endblock %}
+
+{% block content %}
+<div class="menu-container">
+    <h2>Bienvenido, {{ session['empresa_nombre'] }}</h2>
+    <div class="menu-options">
+        <a href="{{ url_for('registrar') }}" class="menu-btn">
+            <span>Registrar Nueva Vacante</span>
+        </a>
+        <a href="{{ url_for('administrar') }}" class="menu-btn">
+            <span>Administrar Vacantes</span>
+        </a>
+    </div>
+</div>
+{% endblock %}

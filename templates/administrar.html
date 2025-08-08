@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Administrar Vacantes{% endblock %}
+
+{% block content %}
+<div class="vacantes-container">
+    <h2>Administrar Vacantes</h2>
+    <a href="{{ url_for('registrar') }}" class="btn">Nueva Vacante</a>
+    
+    <div class="vacantes-grid">
+        {% for vacante in vacantes %}
+        <div class="vacante-card {% if not vacante.activa %}inactiva{% endif %}">
+            <h3>{{ vacante.titulo }}</h3>
+            <p class="fecha">Creada: {{ vacante.fecha_creacion.strftime('%d/%m/%Y') }}</p>
+            <p class="estado">Estado: {{ 'Activa' if vacante.activa else 'Cerrada' }}</p>
+            
+            <div class="vacante-actions">
+                <a href="{{ url_for('editar', vacante_id=vacante.id) }}" class="btn small">Editar</a>
+                {% if vacante.activa %}
+                <a href="{{ url_for('cerrar_vacante', vacante_id=vacante.id) }}" class="btn small secondary">Cerrar</a>
+                {% endif %}
+            </div>
+        </div>
+        {% else %}
+        <p class="no-vacantes">No hay vacantes registradas.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
