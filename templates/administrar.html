@@ -18,9 +18,17 @@
                 <a href="{{ url_for('editar', vacante_id=vacante._id) }}" class="btn small">Editar</a>
                 
                 {% if vacante.activa %}
-                <a href="{{ url_for('cerrar_vacante', vacante_id=vacante._id) }}" 
-                   class="btn small secondary"
-                   onclick="return confirm('¿Estás seguro de cerrar esta vacante?')">Cerrar</a>
+                    <a href="{{ url_for('cerrar_vacante', vacante_id=vacante._id) }}" 
+                       class="btn small secondary"
+                       onclick="return confirm('¿Estás seguro de cerrar esta vacante?')">
+                       Cerrar
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('abrir_vacante', vacante_id=vacante._id) }}" 
+                       class="btn small success"
+                       onclick="return confirm('¿Quieres reabrir esta vacante?')">
+                       Reabrir
+                    </a>
                 {% endif %}
             </div>
         </div>
@@ -31,5 +39,6 @@
 </div>
 
 {% endblock %}
+
 
 
