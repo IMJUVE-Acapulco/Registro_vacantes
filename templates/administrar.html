@@ -15,7 +15,7 @@
             <p class="estado">Estado: {{ 'Activa' if vacante.activa else 'Cerrada' }}</p>
             
             <div class="vacante-actions">
-                <a href="{{ url_for('editar', vacante_id=vacante.id) }}" class="btn small">Editar</a>
+                <a href="{{ url_for('editar', vacante_id=vacante._id) }}" class="btn small">Editar</a>
                 {% if vacante.activa %}
                 <a href="{{ url_for('cerrar_vacante', vacante_id=vacante.id) }}" class="btn small secondary">Cerrar</a>
                 {% endif %}
@@ -26,4 +26,5 @@
         {% endfor %}
     </div>
 </div>
+
 {% endblock %}
