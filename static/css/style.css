@@ -340,4 +340,15 @@ footer {
     .btn {
         width: 100%;
     }
+
+}
+
+.btn.secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn.success {
+    background: #28a745;
+    color: white;
 }
